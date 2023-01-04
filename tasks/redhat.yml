@@ -1,0 +1,45 @@
+---
+- name: Ensure old versions of Docker RPM packages are not installed
+  ansible.builtin.package:
+    name:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+    state: absent
+
+- name: Add Docker RPM signing key
+  ansible.builtin.rpm_key:
+    key: "{{ docker_yum_gpg_key }}"
+    state: present
+
+- name: Add Docker YUM repository
+  ansible.builtin.get_url:
+    url: "{{ docker_yum_repo_url }}"
+    dest: '/etc/yum.repos.d/docker-ce.repo'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Configure ContainerD on CentOS 8
+  when: ansible_distribution_major_version | int == 8
+  block:
+    - name: Ensure Container-SELinux is installed on CentOS 8
+      ansible.builtin.package:
+        name: container-selinux
+        state: present
+      notify: Reboot Host
+    - name: Ensure containerd.io is installed on CentOS 8
+      ansible.builtin.package:
+        name: containerd.io
+        state: present
+
+- name: Ensure Docker Python packages installed on CentOS 7
+  ansible.builtin.package:
+    name: python-docker-py
+    state: present
+  when: ansible_distribution_major_version | int == 7

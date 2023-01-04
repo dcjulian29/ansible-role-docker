@@ -1,0 +1,49 @@
+---
+- name: Ensure old versions of Docker APT packages are not installed
+  ansible.builtin.apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+
+- name: Add Docker APT signing key
+  ansible.builtin.apt_key:
+    url: "{{ docker_apt_gpg_key }}"
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: present
+
+- name: Add Docker APT repository
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+    update_cache: true
+
+- name: Install containerd.io APT package
+  ansible.builtin.apt:
+    name:
+      - containerd.io
+    state: latest
+
+- name: Check if CGroup swap is configured in the boot command
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: "^GRUB_CMDLINE_LINUX_DEFAULT=\".*cgroup_enable=memory swapaccount=1.*\""
+    state: absent
+  check_mode: true
+  register: docker_grub_cmdline_check
+  changed_when: false
+
+- name: Ensure CGroup swap is enabled for Docker
+  ansible.builtin.lineinfile:
+    backrefs: true
+    path: /etc/default/grub
+    regexp: "^(GRUB_CMDLINE_LINUX_DEFAULT=\".*)\"$"
+    line: '\1 cgroup_enable=memory swapaccount=1"'
+  notify:
+    - Update GRUB
+    - Reboot Host
+  when:
+    - docker_grub_cmdline_check.found == 0

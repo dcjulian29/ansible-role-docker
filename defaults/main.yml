@@ -1,0 +1,10 @@
+---
+docker_apt_gpg_key: "{{ docker_repo_url }}/{{ ansible_distribution | lower }}/gpg"
+docker_apt_repository: "deb [arch=amd64] {{ docker_repo_url }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+docker_data_dir: /opt/docker
+docker_group_members: []
+docker_log_gelf: false
+docker_log_gelf_url: ''
+docker_repo_url: https://download.docker.com/linux
+docker_yum_repo_url: "{{ docker_repo_url }}/{{ (ansible_distribution == 'Fedora') | ternary('fedora','centos') }}/docker-ce.repo"
+docker_yum_gpg_key: "{{ docker_repo_url }}/centos/gpg"

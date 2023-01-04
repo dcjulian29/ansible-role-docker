@@ -1,0 +1,9 @@
+{
+  "data-root": "{{ docker_data_dir }}"{% if docker_log_gelf %},
+  "log-driver": "gelf",
+  "log-opts": {
+    "gelf-address": "{{ docker_log_gelf_url }}"
+  }{% endif +%}{% if ansible_default_ipv6.address is defined %},
+  "ipv6": true,
+  "fixed-cidr-v6": "fd00::/80"{% endif +%}
+}
