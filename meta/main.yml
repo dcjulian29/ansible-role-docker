@@ -1,5 +1,6 @@
 ---
-dependencies: []
+dependencies:
+  - role: geerlingguy.pip
 galaxy_info:
   author: Julian Easterling
   description: Ansible role to install Docker and related utilities to manage containers

@@ -47,10 +47,5 @@
     name: docker
     enabled: true
 
-- name: Ensure Docker Python packages installed
-  ansible.builtin.include_role:
-    name: pip
-  when: ansible_os_family != "RedHat" or (ansible_os_family == "RedHat" and ansible_distribution_major_version | int != 7)
-
 - name: Ensure all handlers run before continuing
   ansible.builtin.meta: flush_handlers
