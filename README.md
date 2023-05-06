@@ -28,4 +28,4 @@ ansible-galaxy install -r requirements.yml
 
 ## Dependencies
 
-None
+- Ansible Role: `geerlingguy.pip`
