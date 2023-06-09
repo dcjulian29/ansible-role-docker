@@ -25,7 +25,7 @@
   ansible.builtin.apt:
     name:
       - containerd.io
-    state: latest
+    state: "{{ 'latest' }}"
 
 - name: Check if CGroup swap is configured in the boot command
   ansible.builtin.lineinfile:
