@@ -1,6 +1,8 @@
 ---
-skip_list:
-  - package-latest
+exclude_paths:
+  - .github/workflows/lint.yml
+
+skip_list: []
 
 warn_list:
   - experimental
