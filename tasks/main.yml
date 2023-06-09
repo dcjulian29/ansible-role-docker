@@ -7,7 +7,7 @@
     name:
       - docker-ce
       - docker-ce-cli
-    state: latest
+    state: "{{ 'latest' }}"
 
 - name: Ensure Docker data directory exists
   ansible.builtin.file:
