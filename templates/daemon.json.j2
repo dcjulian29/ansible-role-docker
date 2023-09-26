@@ -2,7 +2,10 @@
   "data-root": "{{ docker_data_dir }}"{% if docker_log_gelf %},
   "log-driver": "gelf",
   "log-opts": {
-    "gelf-address": "{{ docker_log_gelf_url }}"
+    "gelf-address": "{{ docker_log_gelf_url }}",
+    "cache-max-file": "{{ docker_log_cache_file}}",
+    "cache-max-size": "{{ docker_log_cache_size }}",
+    "cache-compress": "{{ docker_log_cache_compress | to_json }}"
   }{% endif +%}{% if ansible_default_ipv6.address is defined %},
   "ipv6": true,
   "fixed-cidr-v6": "fd00::/80"{% endif +%}
