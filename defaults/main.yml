@@ -1,7 +1,9 @@
 ---
 docker_apt_gpg_key: "{{ docker_repo_url }}/{{ ansible_distribution | lower }}/gpg"
 docker_apt_dist: "{{ ansible_distribution | lower }} {{ ansible_distribution_release }}"
-docker_apt_repository: "deb [arch=amd64] {{ docker_repo_url }}/{{ docker_apt_dist }} stable"
+docker_apt_keyring: /usr/share/keyrings/docker.gpg
+docker_apt_meta: "arch=amd64 signed-by={{ docker_apt_keyring }}"
+docker_apt_repository: "deb [{{ docker_apt_meta }}] {{ docker_repo_url }}/{{ docker_apt_dist }} stable"
 docker_data_dir: /opt/docker
 docker_debug: false
 docker_group_members: []
