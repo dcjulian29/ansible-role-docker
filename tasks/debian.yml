@@ -1,5 +1,5 @@
 ---
-- name: Ensure old versions of Docker APT packages are not installed
+- name: Ensure outdated versions of Docker packages are absent
   ansible.builtin.apt:
     name:
       - docker
@@ -22,12 +22,6 @@
     repo: "{{ docker_apt_repository }}"
     state: present
     update_cache: true
-
-- name: Install containerd.io APT package
-  ansible.builtin.apt:
-    name:
-      - containerd.io
-    state: "{{ 'latest' }}"
 
 - name: Check if CGroup swap is configured in the boot command
   ansible.builtin.lineinfile:

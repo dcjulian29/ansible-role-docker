@@ -1,8 +1,7 @@
 ---
-- name: Ensure old versions of Docker RPM packages are not installed
+- name: Ensure outdated versions of Docker packages are absent
   ansible.builtin.package:
     name:
-      - docker
       - docker-client
       - docker-client-latest
       - docker-common
@@ -24,22 +23,3 @@
     owner: root
     group: root
     mode: "0644"
-
-- name: Configure ContainerD on CentOS 8
-  when: ansible_distribution_major_version | int == 8
-  block:
-    - name: Ensure Container-SELinux is installed on CentOS 8
-      ansible.builtin.package:
-        name: container-selinux
-        state: present
-      notify: Reboot Host
-    - name: Ensure containerd.io is installed on CentOS 8
-      ansible.builtin.package:
-        name: containerd.io
-        state: present
-
-- name: Ensure Docker Python packages installed on CentOS 7
-  ansible.builtin.package:
-    name: python-docker-py
-    state: present
-  when: ansible_distribution_major_version | int == 7
