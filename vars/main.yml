@@ -1,5 +1,0 @@
----
-pip_install_packages:
-  - name: requests
-  - name: urllib3
-  - name: docker
