@@ -33,7 +33,7 @@
     state: directory
     owner: root
     group: root
-    mode: u+rwx,g+rx,o+rx
+    mode: '0755'
 
 - name: Ensure Docker daemon is configured
   ansible.builtin.template:
@@ -41,7 +41,9 @@
     dest: '/etc/docker/daemon.json'
     owner: root
     group: root
-    mode: u=rw,g=r,o=r
+    mode: '0644'
+    lstrip_blocks: true
+    trim_blocks: true
   notify: Restart Docker
 
 - name: Enable Docker service
