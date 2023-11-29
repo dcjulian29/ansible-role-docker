@@ -2,7 +2,7 @@
   "data-root": "{{ docker_data_dir }}",
   "debug": {{ docker_debug | to_json }},
 {% if ansible_default_ipv6.address is defined %}
-  "ipv6": "true",
+  "ipv6": true,
   "fixed-cidr-v6": "fd00::/80",
 {% endif %}
 {% if docker_log_gelf %}
