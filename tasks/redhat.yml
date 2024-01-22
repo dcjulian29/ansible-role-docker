@@ -2,12 +2,8 @@
 - name: Ensure outdated versions of Docker packages are absent
   ansible.builtin.package:
     name:
-      - docker-client
-      - docker-client-latest
+      - docker
       - docker-common
-      - docker-latest
-      - docker-latest-logrotate
-      - docker-logrotate
       - docker-engine
     state: absent
 
@@ -19,7 +15,7 @@
 - name: Add Docker YUM repository
   ansible.builtin.get_url:
     url: "{{ docker_yum_repo_url }}"
-    dest: '/etc/yum.repos.d/docker-ce.repo'
+    dest: "/etc/yum.repos.d/docker-{{ docker_edition }}.repo"
     owner: root
     group: root
     mode: "0644"

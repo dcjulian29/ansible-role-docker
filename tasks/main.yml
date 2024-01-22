@@ -2,22 +2,29 @@
 - name: Include OS-specific tasks
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
 
-- name: Install Docker packages
+- name: Install Docker
   ansible.builtin.package:
     name:
       - containerd.io
-      - docker-ce
-      - docker-ce-cli
+      - "docker-{{ docker_edition }}"
+      - "docker-{{ docker_edition }}-cli"
+      - "docker-{{ docker_edition }}-rootless-extras"
+    state: "{{ 'latest' }}"
+
+- name: Install Docker Compose Plugin
+  ansible.builtin.package:
+    name:
       - docker-compose-plugin
     state: "{{ 'latest' }}"
+  when: docker_compose
 
 - name: Ensure Docker data directory exists
   ansible.builtin.file:
     path: "{{ docker_data_dir }}"
     state: directory
     owner: root
-    group: root
-    mode: '0710'
+    group: docker
+    mode: '0750'
 
 - name: Ensure specified users are in the docker group
   ansible.builtin.user:
@@ -26,6 +33,9 @@
     append: true
   with_items: "{{ docker_group_members }}"
   when: docker_group_members | length > 0
+
+- name: Reset SSH connection to apply potential user changes
+  ansible.builtin.meta: reset_connection
 
 - name: Ensure Docker configuration directory is present
   ansible.builtin.file:
