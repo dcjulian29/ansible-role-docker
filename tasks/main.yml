@@ -23,8 +23,8 @@
     path: "{{ docker_data_dir }}"
     state: directory
     owner: root
-    group: docker
-    mode: '0750'
+    group: root
+    mode: '0710'
 
 - name: Ensure specified users are in the docker group
   ansible.builtin.user:
