@@ -56,6 +56,18 @@
     trim_blocks: true
   notify: Restart Docker
 
+- name: Ensure Docker minimum API version is configured
+  ansible.builtin.template:
+    src: 'minimum_api.conf.j2'
+    dest: '/etc/systemd/system/docker.service.d/override.conf'
+    owner: root
+    group: root
+    mode: '0644'
+    lstrip_blocks: true
+    trim_blocks: true
+  notify: Restart Docker
+  when: docker_min_api_version_override
+
 - name: Enable Docker service
   ansible.builtin.service:
     name: docker
