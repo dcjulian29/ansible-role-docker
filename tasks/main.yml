@@ -56,6 +56,14 @@
     trim_blocks: true
   notify: Restart Docker
 
+- name: Ensure docker.service.d directory is present
+  ansible.builtin.file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Ensure Docker minimum API version is configured
   ansible.builtin.template:
     src: 'minimum_api.conf.j2'
