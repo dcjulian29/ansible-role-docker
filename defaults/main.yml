@@ -20,6 +20,9 @@ docker_log_gelf: false
 docker_log_gelf_url: ''
 docker_min_api_version: 1.24
 docker_min_api_version_override: false
+docker_networks: []
+  # - network1
+  # - network2
 docker_repo_url: https://download.docker.com/linux
 docker_yum_dist: "{{ (ansible_distribution == 'Fedora') | ternary('fedora','centos') }}"
 docker_yum_repo_url: "{{ docker_repo_url }}/{{ docker_yum_dist }}/docker-ce.repo"

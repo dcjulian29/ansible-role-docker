@@ -83,3 +83,13 @@
 
 - name: Ensure all handlers run before continuing
   ansible.builtin.meta: flush_handlers
+
+- name: Ensure Docker Networks are present
+  community.docker.docker_network:
+    appends: true
+    attachable: true
+    driver: bridge
+    name: "{{ item }}"
+    state: present
+  when: docker_networks | length > 0
+  with_items: "{{ docker_networks }}"
