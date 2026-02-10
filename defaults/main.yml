@@ -5,7 +5,6 @@ docker_apt_key: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 docker_apt_keyring: /usr/share/keyrings/docker.gpg
 docker_apt_meta: "signed-by={{ docker_apt_keyring }}"
 docker_apt_repository: "deb [{{ docker_apt_meta }}] {{ docker_repo_url }}/{{ docker_apt_dist }} stable"
-docker_compose: false
 docker_data_dir: /opt/docker
 docker_debug: false
 docker_edition: ce    # 'ce' (Community Edition) or 'ee' (Enterprise Edition)

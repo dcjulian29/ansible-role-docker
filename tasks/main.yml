@@ -11,13 +11,6 @@
       - "docker-{{ docker_edition }}-rootless-extras"
     state: "{{ 'latest' }}"
 
-- name: Install Docker Compose Plugin
-  ansible.builtin.package:
-    name:
-      - docker-compose-plugin
-    state: "{{ 'latest' }}"
-  when: docker_compose
-
 - name: Ensure Docker data directory exists
   ansible.builtin.file:
     path: "{{ docker_data_dir }}"
