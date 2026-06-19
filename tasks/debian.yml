@@ -7,19 +7,23 @@
       - docker-engine
     state: absent
 
-- name: Add Docker APT signing key
-  ansible.builtin.apt_key:
-    url: "{{ docker_apt_gpg_key }}"
-    id: "{{ docker_apt_key }}"
-    keyring: "{{ docker_apt_keyring }}"
+- name: Configure Debian APT repositories
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: "{{ docker_apt_repository }}"
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: stable
+    signed_by: "{{ docker_apt_gpg_key }}"
+    architectures: amd64
     state: present
+    enabled: yes
+  register: docker_apt_repo
 
-- name: Add Docker APT repository
-  ansible.builtin.apt_repository:
-    filename: "docker-{{ docker_edition }}"
-    repo: "{{ docker_apt_repository }}"
-    state: present
+- name: Update APT cache after adding Docker repository
+  ansible.builtin.apt:
     update_cache: true
+  when: docker_apt_repo.changed
 
 - name: Check if CGroup swap is configured in the boot command
   ansible.builtin.lineinfile:
