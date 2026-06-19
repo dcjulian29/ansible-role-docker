@@ -19,3 +19,18 @@
     owner: root
     group: root
     mode: "0644"
+
+- name: Ensure netfilter kernel modules for Docker networking are installed
+  ansible.builtin.package:
+    name: "kernel-modules-extra-{{ ansible_facts['kernel'] }}"
+    state: present
+
+- name: Ensure netfilter kernel modules required by Docker are loaded
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+    persistent: present
+  loop:
+    - br_netfilter
+    - ip_tables
+    - xt_addrtype
