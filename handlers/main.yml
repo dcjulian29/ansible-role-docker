@@ -1,4 +1,8 @@
 ---
+- name: Update APT Cache
+  ansible.builtin.apt:
+    update_cache: true
+
 - name: Update GRUB
   ansible.builtin.shell: /usr/sbin/update-grub
 

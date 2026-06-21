@@ -1,6 +1,9 @@
 ---
 - name: Include OS-specific tasks
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
+
+- name: Ensure all handlers run before continuing
+  ansible.builtin.meta: flush_handlers
 
 - name: Install Docker
   ansible.builtin.package:
