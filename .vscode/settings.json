@@ -2,10 +2,13 @@
   "cSpell.words": [
     "cmdline",
     "dcjulian",
+    "equalto",
     "geerlingguy",
     "gelf",
     "lineinfile",
+    "lstrip",
     "runc",
+    "selectattr",
     "trixie",
     "unmark"
   ],

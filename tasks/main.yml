@@ -5,6 +5,22 @@
 - name: Ensure all handlers run before continuing
   ansible.builtin.meta: flush_handlers
 
+- name: Accept RAs despite Docker enabling IPv6 forwarding
+  ansible.posix.sysctl:
+    name: "net.ipv6.conf.{{ item }}.accept_ra"
+    value: "2"
+    sysctl_file: /etc/sysctl.d/99-docker-ipv6-ra.conf
+    sysctl_set: true
+    reload: true
+    state: present
+  loop:
+    - default
+    - "{{ docker_ipv6_interface }}"
+  when:
+    - docker_ipv6 | bool
+    - docker_ipv6_accept_ra | bool
+    - docker_ipv6_interface | length > 0
+
 - name: Install Docker
   ansible.builtin.package:
     name:
@@ -12,7 +28,7 @@
       - "docker-{{ docker_edition }}"
       - "docker-{{ docker_edition }}-cli"
       - "docker-{{ docker_edition }}-rootless-extras"
-    state: "{{ 'latest' }}"
+    state: present
 
 - name: Ensure Docker data directory exists
   ansible.builtin.file:
