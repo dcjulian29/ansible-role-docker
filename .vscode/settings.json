@@ -6,6 +6,7 @@
     "gelf",
     "lineinfile",
     "runc",
+    "trixie",
     "unmark"
   ],
   "yaml.schemas": {
