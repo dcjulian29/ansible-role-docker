@@ -13,7 +13,7 @@ rules:
   comments-indentation: false
   indentation:
     spaces: 2
-    indent-sequences: true
+    indent-sequences: whatever
   line-length:
     max: 125
   octal-values:

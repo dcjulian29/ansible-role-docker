@@ -1,11 +1,24 @@
 ---
+profile: production
+
 exclude_paths:
-  - .github/workflows/lint.yml
+  - .github/
+  - .vscode/
+  - .cache/
 
 skip_list: []
 
 warn_list:
   - experimental
+
+enable_list:
+  - empty-string-compare
+  - jinja-template-extension
+  - no-log-password
+  - no-prompting
+
+mock_roles:
+  - geerlingguy.pip
 
 kinds:
   - playbook: "**/examples/*.{yml,yaml}"
