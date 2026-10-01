@@ -76,6 +76,18 @@
     group: root
     mode: '0755'
 
+# Only a daemon-reload is needed: the ordering takes effect at the next boot, so
+# there's no reason to restart Docker (and every container) on existing hosts.
+- name: Ensure Docker waits for remote file systems
+  ansible.builtin.template:
+    src: 'remote_fs.conf.j2'
+    dest: '/etc/systemd/system/docker.service.d/remote-fs.conf'
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload systemd
+  when: docker_wait_for_remote_fs | bool
+
 - name: Ensure Docker minimum API version is configured
   ansible.builtin.template:
     src: 'minimum_api.conf.j2'
@@ -85,7 +97,9 @@
     mode: '0644'
     lstrip_blocks: true
     trim_blocks: true
-  notify: Restart Docker
+  notify:
+    - Reload systemd
+    - Restart Docker
   when: docker_min_api_version_override
 
 - name: Enable Docker service

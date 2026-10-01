@@ -28,6 +28,7 @@ docker_networks: []
   # - network1
   # - network2
 docker_repo_url: https://download.docker.com/linux
+docker_wait_for_remote_fs: true    # start Docker after NFS/CIFS mounts so containers see them
 docker_yum_dist: "{{ (ansible_facts['distribution'] == 'Fedora') | ternary('fedora','centos') }}"
 docker_yum_repo_url: "{{ docker_repo_url }}/{{ docker_yum_dist }}/docker-ce.repo"
 docker_yum_gpg_key: "{{ docker_repo_url }}/centos/gpg"

@@ -1,0 +1,5 @@
+# Docker restarts containers at boot. Bind mounts taken before NFS/CIFS mounts
+# finish pin the container to the empty mount point, so wait for remote mounts.
+[Unit]
+Wants=remote-fs.target
+After=remote-fs.target
